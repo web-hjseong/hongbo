@@ -17,7 +17,7 @@ body, h1, h2, p {
 
 /* 사이트 제목*/
 header {
-    background-color: #EDF2C2;
+    background-color: #edf2c2e3;
     width: 100%;
     height: 80px;
     display: flex;
@@ -25,6 +25,11 @@ header {
     align-items: center; /*세로 중앙 정렬*/
 
     position: fixed;
+    /*화면위에 고정시킬때 
+      z축을 기준으로 앞으로 더 나와있게한다
+      : 가장 앞쪽에 나온다
+      */
+    z-index: 100;
 }
 header h1 {
     color: #42731F;
@@ -70,7 +75,8 @@ section {
     display: flex;
     justify-content: end;
 }
-.pic1, .pic2, .pic3 {
+.pic1, .pic2, .pic3,
+.text, .pic-box {
     /*div태그는 공간을 확인하기어려움으로 미리지정*/
     width: 25vw; /*화면 너비사이즈 기준으로 비율*/
     height: 80vh; /*화면의 높이사이즈 기준으로 비율*/
@@ -89,15 +95,55 @@ section {
 .pic1 {
     background-image: url(pic1.jpg);
     background-size: cover;
+    transition: all 0.5s;
+}
+.pic1:hover {
+    box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.208);
+    transform: translate(-10px, -5px);
 }
 .pic2 {
     background-image: url(pic2.jpg);
     background-size: cover;
+    transition: all 0.5s;
+}
+.pic2:hover {
+    /* opacity는 태그 전체가 투명해진다
+       그 안에있는 자식도 투명*/
+    opacity: 0.7;
+    transform: translateY(-10px);
+}
+
+.pic-box {
+    position: relative;
+    /* div에서 자식이 부모다 클때, 
+    hidden을 쓰면 부모보다 큰 부분은 안보이게함*/
+    overflow: hidden;
+}
+.text , .pic3 { 
+    margin: 0;
+}
+.text {
+    z-index: 10;
+    /*색없음*/
+    background-color: transparent;
 }
 .pic3 {
+    position: absolute;
+    left: 0;
+    top : 0;
+
     background-image: url(pic3.jpg);
     background-size: cover;
     background-position: center;
+
+    transition: all 0.5s;
+}
+/* pic3위에 text가 z-index로 올라가있기 때문에
+   pic-box위에 마우스를 올렸을때
+   pic3의 디자인을 바꾸는 css 선택자*/
+.pic-box:hover .pic3 {
+    filter: blur(5px);
+    transform: scale(1.05);
 }
 
 /*푸터 디자인*/
@@ -106,4 +152,19 @@ footer {
     height: 60px;
     text-align: center;
     padding: 10px;
+}
+
+/* 미디어쿼리를 이용해서 모바일 화면으로 제작 */
+@media (max-width: 768px) {
+    /* section2의 레이아웃을 수정*/
+    /* 일렬로 나열되어있는 pic들을 세로로 정렬 */
+    /* gallery의 flex 수정*/
+    .gallery {
+        flex-direction: column;
+    }
+    .pic1, .pic2, .pic3,
+    .text, .pic-box {
+        width: 90vw;
+        height: 24vh;
+    }
 }
